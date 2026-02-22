@@ -1,4 +1,7 @@
+using SteamWebAPI2.Utilities;
+
 var builder = WebApplication.CreateBuilder(args);
+var steamApiKey = builder.Configuration["SteamApiKey"];
 
 // Add services to the container.
 
@@ -8,6 +11,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton(new SteamWebInterfaceFactory(steamApiKey));
 
 var app = builder.Build();
 

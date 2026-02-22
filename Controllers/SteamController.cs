@@ -43,7 +43,7 @@ public class SteamController : ControllerBase
 
         while (true)
         {
-            var url = $"https://api.steampowered.com/IStoreService/GetAppList/v1/?key={steamApiKey}&max_results=50000&last_appid={lastAppId}";
+            var url = $"https://api.steampowered.com/IStoreService/GetAppList/v1/?key={steamApiKey}&max_results=50000&last_appid={lastAppId}&include_games=true&include_dlc=true&include_software=true&include_videos=true&include_hardware=true";
             var json = await httpClient.GetStringAsync(url);
             var doc = System.Text.Json.JsonDocument.Parse(json);
             var response = doc.RootElement.GetProperty("response");
@@ -73,7 +73,8 @@ public class SteamController : ControllerBase
             {
                 g.Name,
                 g.AppId,
-                PlaytimeMinutes = g.PlaytimeForever.TotalMinutes
+                PlaytimeMinutes = g.PlaytimeForever.TotalMinutes,
+                ImageUrl = $"https://cdn.akamai.steamstatic.com/steam/apps/{g.AppId}/header.jpg"
             })
             .ToList();
 
